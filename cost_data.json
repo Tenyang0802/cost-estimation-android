@@ -1,0 +1,792 @@
+{
+  "raw_materials": [
+    {
+      "name": "棕油",
+      "price_kg": 9.7,
+      "price_ton": 9700.0
+    },
+    {
+      "name": "糖",
+      "price_kg": 5.68,
+      "price_ton": 5680.0
+    },
+    {
+      "name": "大豆磷脂",
+      "price_kg": 6.9,
+      "price_ton": 6900.0
+    },
+    {
+      "name": "糖浆",
+      "price_kg": 3.3,
+      "price_ton": 3300.0
+    },
+    {
+      "name": "盐",
+      "price_kg": 0.7,
+      "price_ton": 700.0
+    },
+    {
+      "name": "小苏打",
+      "price_kg": 2.2,
+      "price_ton": 2200.0
+    },
+    {
+      "name": "碳酸氢铵",
+      "price_kg": 2.52,
+      "price_ton": 2520.0
+    },
+    {
+      "name": "单甘脂",
+      "price_kg": 12.0,
+      "price_ton": 12000.0
+    },
+    {
+      "name": "香精",
+      "price_kg": 93.0,
+      "price_ton": 93000.0
+    },
+    {
+      "name": "韧性酶",
+      "price_kg": 85.0,
+      "price_ton": 85000.0
+    },
+    {
+      "name": "水包粉",
+      "price_kg": 3.1,
+      "price_ton": 3100.0
+    },
+    {
+      "name": "苏打酶",
+      "price_kg": 85.0,
+      "price_ton": 85000.0
+    },
+    {
+      "name": "酵母",
+      "price_kg": 12.8,
+      "price_ton": 12800.0
+    },
+    {
+      "name": "玉米糖浆",
+      "price_kg": 5.25,
+      "price_ton": 5250.0
+    },
+    {
+      "name": "柠檬酸",
+      "price_kg": 6.6,
+      "price_ton": 6600.0
+    },
+    {
+      "name": "焦亚",
+      "price_kg": 4.1,
+      "price_ton": 4100.0
+    },
+    {
+      "name": "二氢钙",
+      "price_kg": 16.2,
+      "price_ton": 16200.0
+    },
+    {
+      "name": "面粉",
+      "price_kg": 3.1,
+      "price_ton": 2900.0
+    },
+    {
+      "name": "牛奶香精",
+      "price_kg": 93.0,
+      "price_ton": 93000.0
+    },
+    {
+      "name": "黄油",
+      "price_kg": 15.0,
+      "price_ton": 15000.0
+    },
+    {
+      "name": "水",
+      "price_kg": 0.0019,
+      "price_ton": 1.9
+    },
+    {
+      "name": "喷油",
+      "price_kg": 9.7,
+      "price_ton": 9700.0
+    },
+    {
+      "name": "面粉",
+      "price_kg": 3.5,
+      "price_ton": 3500.0
+    },
+    {
+      "name": "白糖",
+      "price_kg": 5.0,
+      "price_ton": 5000.0
+    },
+    {
+      "name": "棕油",
+      "price_kg": 8.5,
+      "price_ton": 8500.0
+    }
+  ],
+  "production_efficiency": {
+    "产量_10小时_斤": 18686.344,
+    "产量_小时_斤": 1868.6344000000001,
+    "产量_每小时_kg": 1000,
+    "产量_每小时_吨": 0.9343172000000001,
+    "工作时间": 24.0,
+    "天数": 28.0,
+    "source": "manual",
+    "ref_projects": [
+      {
+        "name": "5",
+        "output_kg": 163824,
+        "hours": 195.7
+      },
+      {
+        "name": "测试项目",
+        "output_kg": 163824,
+        "hours": 195.7
+      }
+    ]
+  },
+  "capacity": {
+    "月产能_kg": 300000,
+    "月产能_吨": 300.0
+  },
+  "fixed_costs": [
+    {
+      "name": "厂房费用",
+      "price": 50000.0
+    },
+    {
+      "name": "保险费用",
+      "price": 2250.0
+    },
+    {
+      "name": "厂房保险",
+      "price": 1833.0
+    },
+    {
+      "name": "淘宝饼干",
+      "price": 17352.0
+    },
+    {
+      "name": "应酬费用",
+      "price": 23016.0
+    }
+  ],
+  "admin_costs": [
+    {
+      "name": "许小安",
+      "price": 2500.0,
+      "qty": 1,
+      "total": 2500.0
+    },
+    {
+      "name": "杨勇腾",
+      "price": 5000.0,
+      "qty": 1,
+      "total": 5000.0
+    },
+    {
+      "name": "5000",
+      "price": 5000.0,
+      "qty": 1,
+      "total": 5000.0
+    },
+    {
+      "name": "许桑蕊",
+      "price": 2600.0,
+      "qty": 1,
+      "total": 2600.0
+    },
+    {
+      "name": "黄惠玲",
+      "price": 2500.0,
+      "qty": 1,
+      "total": 2500.0
+    },
+    {
+      "name": "邹福宝",
+      "price": 5000.0,
+      "qty": 1,
+      "total": 5000.0
+    },
+    {
+      "name": "蔡秀玉",
+      "price": 1850.0,
+      "qty": 1,
+      "total": 1850.0
+    },
+    {
+      "name": "许亚木",
+      "price": 1850.0,
+      "qty": 1,
+      "total": 1850.0
+    },
+    {
+      "name": "蔡小红",
+      "price": 4000.0,
+      "qty": 1,
+      "total": 4000.0
+    },
+    {
+      "name": "黄彩霞",
+      "price": 3300.0,
+      "qty": 1,
+      "total": 3300.0
+    },
+    {
+      "name": "周宗霖",
+      "price": 2000.0,
+      "qty": 1,
+      "total": 2000.0
+    },
+    {
+      "name": "洪春辉",
+      "price": 5000.0,
+      "qty": 1,
+      "total": 5000.0
+    },
+    {
+      "name": "亚石",
+      "price": 2500.0,
+      "qty": 1,
+      "total": 2500.0
+    },
+    {
+      "name": "福明",
+      "price": 3000.0,
+      "qty": 1,
+      "total": 3000.0
+    },
+    {
+      "name": "许冷祥",
+      "price": 6000.0,
+      "qty": 1,
+      "total": 6000.0
+    },
+    {
+      "name": "李清香",
+      "price": 5000.0,
+      "qty": 1,
+      "total": 5000.0
+    }
+  ],
+  "electricity": {
+    "电费单价元_kg": 0.54
+  },
+  "porter_wages": [
+    {
+      "name": "亚松(搬运)",
+      "base_wage": 2500.0,
+      "correction": 548.2393025,
+      "actual": 3048.2393025
+    },
+    {
+      "name": "荣生(搬运)",
+      "base_wage": 2500.0,
+      "correction": 548.2393025,
+      "actual": 3048.2393025
+    },
+    {
+      "name": "张三",
+      "base_wage": 2500,
+      "correction": 548.2393025,
+      "actual": 3048.2393025
+    },
+    {
+      "name": "李四",
+      "base_wage": 2500,
+      "correction": 548.2393025,
+      "actual": 3048.2393025
+    }
+  ],
+  "production_wages": [
+    {
+      "name": "蔡艺祥",
+      "base_wage": 5500.0,
+      "extra_rate": 16.0,
+      "bonus": 200.0,
+      "limit_hours": 343.75,
+      "actual_hours": 358.37239964840313,
+      "diff": 14.622399648403132,
+      "extra_wage": 233.9583943744501,
+      "total": 5933.95839437445
+    },
+    {
+      "name": "胜利",
+      "base_wage": 2500.0,
+      "extra_rate": 15.0,
+      "bonus": 200.0,
+      "limit_hours": 166.66666666666666,
+      "actual_hours": 358.37239964840313,
+      "diff": 191.70573298173647,
+      "extra_wage": 2875.585994726047,
+      "total": 5575.585994726047
+    },
+    {
+      "name": "黑仔",
+      "base_wage": 4500.0,
+      "extra_rate": 15.0,
+      "bonus": 200.0,
+      "limit_hours": 300.0,
+      "actual_hours": 358.37239964840313,
+      "diff": 58.37239964840313,
+      "extra_wage": 875.5859947260469,
+      "total": 5575.585994726047
+    },
+    {
+      "name": "水根",
+      "base_wage": 4500.0,
+      "extra_rate": 15.0,
+      "bonus": 200.0,
+      "limit_hours": 300.0,
+      "actual_hours": 358.37239964840313,
+      "diff": 58.37239964840313,
+      "extra_wage": 875.5859947260469,
+      "total": 5575.585994726047
+    },
+    {
+      "name": "阿井",
+      "base_wage": 2500.0,
+      "extra_rate": 15.0,
+      "bonus": 200.0,
+      "limit_hours": 166.66666666666666,
+      "actual_hours": 358.37239964840313,
+      "diff": 191.70573298173647,
+      "extra_wage": 2875.585994726047,
+      "total": 5575.585994726047
+    },
+    {
+      "name": "泉勇",
+      "base_wage": 2500.0,
+      "extra_rate": 15.0,
+      "bonus": 200.0,
+      "limit_hours": 166.66666666666666,
+      "actual_hours": 358.37239964840313,
+      "diff": 191.70573298173647,
+      "extra_wage": 2875.585994726047,
+      "total": 5575.585994726047
+    },
+    {
+      "name": "佳惠",
+      "base_wage": 2500.0,
+      "extra_rate": 15.0,
+      "bonus": 200.0,
+      "limit_hours": 166.66666666666666,
+      "actual_hours": 358.37239964840313,
+      "diff": 191.70573298173647,
+      "extra_wage": 2875.585994726047,
+      "total": 5575.585994726047
+    },
+    {
+      "name": "秀美",
+      "base_wage": 2800.0,
+      "extra_rate": 15.0,
+      "bonus": 200.0,
+      "limit_hours": 186.66666666666666,
+      "actual_hours": 358.37239964840313,
+      "diff": 171.70573298173647,
+      "extra_wage": 2575.585994726047,
+      "total": 5575.585994726047
+    },
+    {
+      "name": "蔡小玲",
+      "base_wage": 4000.0,
+      "extra_rate": 15.0,
+      "bonus": 200.0,
+      "limit_hours": 266.6666666666667,
+      "actual_hours": 358.37239964840313,
+      "diff": 91.70573298173645,
+      "extra_wage": 1375.5859947260467,
+      "total": 5575.585994726047
+    },
+    {
+      "name": "杏花",
+      "base_wage": 2500.0,
+      "extra_rate": 15.0,
+      "bonus": 200.0,
+      "limit_hours": 166.66666666666666,
+      "actual_hours": 358.37239964840313,
+      "diff": 191.70573298173647,
+      "extra_wage": 2875.585994726047,
+      "total": 5575.585994726047
+    },
+    {
+      "name": "玉玲",
+      "base_wage": 2500.0,
+      "extra_rate": 15.0,
+      "bonus": 200.0,
+      "limit_hours": 166.66666666666666,
+      "actual_hours": 358.37239964840313,
+      "diff": 191.70573298173647,
+      "extra_wage": 2875.585994726047,
+      "total": 5575.585994726047
+    },
+    {
+      "name": "玉春",
+      "base_wage": 2500.0,
+      "extra_rate": 15.0,
+      "bonus": 200.0,
+      "limit_hours": 166.66666666666666,
+      "actual_hours": 358.37239964840313,
+      "diff": 191.70573298173647,
+      "extra_wage": 2875.585994726047,
+      "total": 5575.585994726047
+    },
+    {
+      "name": "细冷",
+      "base_wage": 2500.0,
+      "extra_rate": 15.0,
+      "bonus": 200.0,
+      "limit_hours": 166.66666666666666,
+      "actual_hours": 358.37239964840313,
+      "diff": 191.70573298173647,
+      "extra_wage": 2875.585994726047,
+      "total": 5575.585994726047
+    },
+    {
+      "name": "王五",
+      "base_wage": 5500,
+      "extra_rate": 16,
+      "bonus": 200,
+      "limit_hours": 343.75,
+      "actual_hours": 358.37239964840313,
+      "diff": 14.622399648403132,
+      "extra_wage": 233.9583943744501,
+      "total": 5933.95839437445
+    },
+    {
+      "name": "赵六",
+      "base_wage": 2500,
+      "extra_rate": 15,
+      "bonus": 200,
+      "limit_hours": 166.66666666666666,
+      "actual_hours": 358.37239964840313,
+      "diff": 191.70573298173647,
+      "extra_wage": 2875.585994726047,
+      "total": 5575.585994726047
+    }
+  ],
+  "packaging_wages": [
+    {
+      "name": "蔡彩霞",
+      "base_wage": 3000.0,
+      "subsidy": 500.0,
+      "bonus": 200.0,
+      "total": 3700.0,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    },
+    {
+      "name": "小清",
+      "base_wage": 2500.0,
+      "subsidy": 0,
+      "bonus": 200.0,
+      "total": 2700.0,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    },
+    {
+      "name": "美环",
+      "base_wage": 2500.0,
+      "subsidy": 0,
+      "bonus": 200.0,
+      "total": 2700.0,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    },
+    {
+      "name": "蔡小英",
+      "base_wage": 2500.0,
+      "subsidy": 0,
+      "bonus": 200.0,
+      "total": 2700.0,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    },
+    {
+      "name": "高玉红",
+      "base_wage": 3000.0,
+      "subsidy": 500.0,
+      "bonus": 200.0,
+      "total": 3700.0,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    },
+    {
+      "name": "翁玉宝",
+      "base_wage": 2500.0,
+      "subsidy": 0,
+      "bonus": 200.0,
+      "total": 2700.0,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    },
+    {
+      "name": "王亚筐",
+      "base_wage": 2500.0,
+      "subsidy": 0,
+      "bonus": 200.0,
+      "total": 2700.0,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    },
+    {
+      "name": "黄艳亮",
+      "base_wage": 2500.0,
+      "subsidy": 0,
+      "bonus": 200.0,
+      "total": 2700.0,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    },
+    {
+      "name": "洪小叶",
+      "base_wage": 3000.0,
+      "subsidy": 500.0,
+      "bonus": 200.0,
+      "total": 3700.0,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    },
+    {
+      "name": "钟阿井",
+      "base_wage": 2500.0,
+      "subsidy": 0,
+      "bonus": 200.0,
+      "total": 2700.0,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    },
+    {
+      "name": "吴燕艺",
+      "base_wage": 2900.0,
+      "subsidy": 400.0,
+      "bonus": 200.0,
+      "total": 3500.0,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    },
+    {
+      "name": "孙七",
+      "base_wage": 2500,
+      "subsidy": 500,
+      "bonus": 200,
+      "total": 3200,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    },
+    {
+      "name": "周八",
+      "base_wage": 2000,
+      "subsidy": 300,
+      "bonus": 200,
+      "total": 2500,
+      "calibration": 6651.321868872411,
+      "final": 6651.321868872411
+    }
+  ],
+  "packaging_coefficient": {
+    "上月包装工资": 0.0,
+    "上月总产量kg": 0.0,
+    "包装系数": 0.2882239476511378
+  },
+  "product_costs": {
+    "包装膜费用": 3.4,
+    "纸箱费用": 2.5
+  },
+  "products": [
+    {
+      "name": "苏打饼干",
+      "ingredients": [
+        {
+          "material_name": "水包粉",
+          "usage_kg": 150.0
+        },
+        {
+          "material_name": "苏打酶",
+          "usage_kg": 0.02
+        },
+        {
+          "material_name": "棕油",
+          "usage_kg": 20.0
+        },
+        {
+          "material_name": "酵母",
+          "usage_kg": 0.4
+        },
+        {
+          "material_name": "玉米糖浆",
+          "usage_kg": 1.5
+        },
+        {
+          "material_name": "柠檬酸",
+          "usage_kg": 0.1
+        },
+        {
+          "material_name": "香精",
+          "usage_kg": 0.3
+        },
+        {
+          "material_name": "焦亚",
+          "usage_kg": 0.015
+        },
+        {
+          "material_name": "盐",
+          "usage_kg": 2.0
+        },
+        {
+          "material_name": "小苏打",
+          "usage_kg": 0.65
+        },
+        {
+          "material_name": "单甘脂",
+          "usage_kg": 0.3
+        },
+        {
+          "material_name": "二氢钙",
+          "usage_kg": 0.2
+        },
+        {
+          "material_name": "喷油",
+          "usage_kg": 19.95
+        },
+        {
+          "material_name": "水",
+          "usage_kg": 27.0
+        },
+        {
+          "material_name": "面粉",
+          "usage_kg": 100
+        },
+        {
+          "material_name": "白糖",
+          "usage_kg": 20
+        },
+        {
+          "material_name": "棕油",
+          "usage_kg": 15
+        }
+      ],
+      "output_kg": 199.5
+    },
+    {
+      "name": "酥性饼干",
+      "ingredients": [
+        {
+          "material_name": "盐",
+          "usage_kg": 0.75
+        },
+        {
+          "material_name": "小苏打",
+          "usage_kg": 0.4
+        },
+        {
+          "material_name": "碳酸氢铵",
+          "usage_kg": 0.35
+        },
+        {
+          "material_name": "面粉",
+          "usage_kg": 100.0
+        },
+        {
+          "material_name": "棕油",
+          "usage_kg": 25.0
+        },
+        {
+          "material_name": "糖",
+          "usage_kg": 22.5
+        },
+        {
+          "material_name": "糖浆",
+          "usage_kg": 1.5
+        },
+        {
+          "material_name": "香精",
+          "usage_kg": 0.2
+        },
+        {
+          "material_name": "水",
+          "usage_kg": 11.0
+        },
+        {
+          "material_name": "喷油",
+          "usage_kg": 18.0
+        }
+      ],
+      "output_kg": 166.25
+    },
+    {
+      "name": "韧性饼干",
+      "ingredients": [
+        {
+          "material_name": "棕油",
+          "usage_kg": 19.0
+        },
+        {
+          "material_name": "糖",
+          "usage_kg": 35.0
+        },
+        {
+          "material_name": "大豆磷脂",
+          "usage_kg": 1.5
+        },
+        {
+          "material_name": "糖浆",
+          "usage_kg": 1.5
+        },
+        {
+          "material_name": "盐",
+          "usage_kg": 2.25
+        },
+        {
+          "material_name": "小苏打",
+          "usage_kg": 0.4
+        },
+        {
+          "material_name": "碳酸氢铵",
+          "usage_kg": 0.35
+        },
+        {
+          "material_name": "单甘脂",
+          "usage_kg": 0.5
+        },
+        {
+          "material_name": "香精",
+          "usage_kg": 0.3
+        },
+        {
+          "material_name": "韧性酶",
+          "usage_kg": 0.06
+        },
+        {
+          "material_name": "水",
+          "usage_kg": 21.0
+        },
+        {
+          "material_name": "喷油",
+          "usage_kg": 19.95
+        },
+        {
+          "material_name": "面粉",
+          "usage_kg": 150.0
+        }
+      ],
+      "output_kg": 261.25
+    },
+    {
+      "name": "苏打饼干",
+      "ingredients": [],
+      "input_kg": 0,
+      "output_kg": 0
+    }
+  ],
+  "packaging_coefficients": [
+    {
+      "name": "1",
+      "wage": 47218.0,
+      "output": 163824.0
+    }
+  ],
+  "efficiency_tracking": []
+}
