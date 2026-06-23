@@ -121,3 +121,5 @@ buildozer android debug
    - 使用debug keystore签名
    - 直接分享APK文件
    - 不需要上架商店
+
+# Trigger rebuild
