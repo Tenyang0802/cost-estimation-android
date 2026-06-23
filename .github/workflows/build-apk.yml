@@ -20,13 +20,19 @@ jobs:
       - name: Build APK with Buildozer (Docker)
         run: |
           cd ${{ github.workspace }}
-          docker run --rm \
+          # 创建打包脚本，内置 root 跳过
+          cat > build_apk.sh << 'EOSCRIPT'
+          #!/bin/bash
+          export BUILDOZER_AS_ROOT=1
+          yes 2>/dev/null | buildozer android debug
+          EOSCRIPT
+          chmod +x build_apk.sh
+          
+          docker run --rm -i \
             -v ${{ github.workspace }}:/app \
-            -v ${{ github.workspace }}/.buildozer:/app/.buildozer \
             -w /app \
-            --env BUILDOZER_AS_ROOT=1 \
             kivy/buildozer:latest \
-            bash -c 'yes | buildozer android debug' 2>&1
+            bash build_apk.sh 2>&1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
