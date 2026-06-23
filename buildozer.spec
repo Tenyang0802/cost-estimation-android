@@ -157,10 +157,10 @@ log_level = 2
 # buildozer.bin_dir = ./bin
 
 # (str) The Android SDK directory
-# android.sdk_path = ~/.buildozer/android/platform/android-sdk
+android.sdk_path = /usr/local/lib/android/sdk
 
 # (str) The Android NDK directory
-# android.ndk_path = ~/.buildozer/android/platform/android-ndk
+android.ndk_path = /usr/local/lib/android/sdk/ndk/27.3.13750724
 
 # (str) The Ant executable directory
 # android.ant_path = 
