@@ -25,7 +25,7 @@ source.exclude_exts = spec
 source.exclude_dirs = tests, bin
 
 # (list) List of patterns to ignore
-source.exclude_patterns = license,readme*.md,*.pyc
+source.exclude_patterns = license,readme*.md,*.pyc,*colab*,*.ipynb,*.bat,*.ps1,*.lnk,push*,versions,screens
 
 # (str) Application versioning (method 1)
 version = 1.0

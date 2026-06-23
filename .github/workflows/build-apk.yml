@@ -48,22 +48,9 @@ jobs:
             }
           ' 2>&1
 
-      - name: Find & Upload APK
-        run: |
-          echo "=== 查找所有 APK/AAB ==="
-          find . -name "*.apk" -o -name "*.aab" 2>/dev/null
-          echo ""
-          echo "=== bin/ 目录 ==="
-          ls -la bin/ 2>/dev/null || echo "(没有 bin/ 目录)"
-          echo ""
-          echo "=== .buildozer 输出目录 ==="
-          ls -la .buildozer/android/platform/build-arm64-v8a/dists/ 2>/dev/null || echo "(无 dists)"
-
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: cost-estimation-apk
-          path: |
-            **/*.apk
-            **/*.aab
-          if-no-files-found: warn
+          path: ./bin/*.apk
+          if-no-files-found: error
