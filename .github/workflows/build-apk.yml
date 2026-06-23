@@ -48,9 +48,23 @@ jobs:
             }
           ' 2>&1
 
+      - name: Find APK
+        run: |
+          echo "=== bin/ ==="
+          ls -la bin/ 2>/dev/null || echo "(empty)"
+          echo "=== .buildozer APK search ==="
+          find .buildozer -name '*.apk' -type f 2>/dev/null || echo "(none)"
+          echo "=== full find ==="
+          find . -name '*.apk' -type f 2>/dev/null || echo "(none)"
+          echo "=== bin tree ==="
+          find bin -type f 2>/dev/null || echo "(no bin)"
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: cost-estimation-apk
-          path: ./bin/*.apk
-          if-no-files-found: error
+          path: |
+            bin/*.apk
+            bin/**/*.apk
+            .buildozer/**/*.apk
+          if-no-files-found: warn
