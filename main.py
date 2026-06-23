@@ -8,7 +8,11 @@ import sys
 from functools import partial
 
 from kivy.app import App
+from kivy.core.text import LabelBase
 from kivy.uix.screenmanager import ScreenManager, Screen, SlideTransition
+
+# 注册中文字体
+LabelBase.register('Roboto', 'C:/Windows/Fonts/msyh.ttc')
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
@@ -53,96 +57,64 @@ def dp_val(dp_val):
 
 # ======================== 自定义Widget ========================
 class CardBox(BoxLayout):
-    """卡片容器"""
+    """卡片容器 - 自动撑高"""
     def __init__(self, **kwargs):
+        self._fixed_h = kwargs.pop('fixed_height', None)
         super().__init__(**kwargs)
         self.orientation = 'vertical'
         self.padding = dp(12)
         self.spacing = dp(8)
+        if not self._fixed_h:
+            self.size_hint_y = None
+            self.bind(minimum_height=self.setter('height'))
         with self.canvas.before:
             Color(*CARD_WHITE)
-            self.rect = RoundedRectangle(size=self.size, pos=self.pos,
-                                         radius=[dp(8)])
-        self.bind(size=self._update_rect, pos=self._update_rect)
-        # 阴影效果（通过偏移矩形实现）
-        with self.canvas.before:
-            Color(0, 0, 0, 0.05)
-            self.shadow = RoundedRectangle(
-                size=(self.size[0], self.size[1] - dp(2)),
-                pos=(self.pos[0], self.pos[1] - dp(2)),
-                radius=[dp(8)])
+            self.rect = RoundedRectangle(size=self.size, pos=self.pos, radius=[dp(8)])
+        self.bind(size=self._on_size, pos=self._on_size)
 
-    def _update_rect(self, *args):
+    def _on_size(self, *args):
         self.rect.pos = self.pos
         self.rect.size = self.size
-        self.shadow.pos = (self.pos[0], self.pos[1] - dp(2))
-        self.shadow.size = (self.size[0], self.size[1] - dp(2))
+
+
+class _TSLabel(Label):
+    """带自动text_size的Label"""
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text_size = (self.width, None)
+        self.bind(width=lambda s, w: setattr(s, 'text_size', (w, None)))
 
 
 class SubHeader(Label):
-    """副标题"""
     def __init__(self, text="", **kwargs):
         super().__init__(**kwargs)
-        self.text = text
-        self.font_size = font_sz(14)
-        self.color = TEXT_GRAY
-        self.halign = 'left'
-        self.valign = 'middle'
-        self.size_hint_y = None
-        self.height = dp(28)
+        self.text = text; self.font_size = font_sz(14); self.color = TEXT_GRAY
+        self.halign = 'left'; self.size_hint_y = None; self.height = dp(28)
         self.text_size = (self.width, None)
         self.bind(width=lambda s, w: setattr(s, 'text_size', (w, None)))
-
 
 class SectionTitle(Label):
-    """区域标题"""
     def __init__(self, text="", **kwargs):
         super().__init__(**kwargs)
-        self.text = text
-        self.font_size = font_sz(16)
-        self.color = TEXT_DARK
-        self.bold = True
-        self.halign = 'left'
-        self.valign = 'middle'
-        self.size_hint_y = None
-        self.height = dp(36)
+        self.text = text; self.font_size = font_sz(16); self.color = TEXT_DARK
+        self.bold = True; self.halign = 'left'; self.size_hint_y = None; self.height = dp(36)
         self.text_size = (self.width, None)
         self.bind(width=lambda s, w: setattr(s, 'text_size', (w, None)))
-
-
-class ValueLabel(Label):
-    """数据展示标签"""
-    def __init__(self, text="", color=TEXT_DARK, **kwargs):
-        super().__init__(**kwargs)
-        self.text = text
-        self.font_size = font_sz(14)
-        self.color = color
-        self.halign = 'right'
-        self.valign = 'middle'
-        self.text_size = (self.width, None)
-        self.bind(width=lambda s, w: setattr(s, 'text_size', (w, None)))
-
 
 class InfoRow(BoxLayout):
-    """带标签和值的一行信息"""
     def __init__(self, label_text="", value_text="", value_color=TEXT_DARK, **kwargs):
         super().__init__(**kwargs)
-        self.orientation = 'horizontal'
-        self.size_hint_y = None
-        self.height = dp(32)
-        self.spacing = dp(8)
-        lbl = Label(text=label_text, font_size=font_sz(14),
-                    color=TEXT_GRAY, halign='left', size_hint_x=0.5,
-                    text_size=(self.width * 0.5, None))
-        self.add_widget(lbl)
-        self.val = Label(text=value_text, font_size=font_sz(14),
-                         color=value_color, halign='right', size_hint_x=0.5,
-                         text_size=(self.width * 0.5, None))
+        self.orientation = 'horizontal'; self.size_hint_y = None; self.height = dp(32); self.spacing = dp(8)
+        self.lbl = Label(text=label_text, font_size=font_sz(14), color=TEXT_GRAY,
+                         halign='left', size_hint_x=0.5,
+                         text_size=(self.width*0.5, None))
+        self.lbl.bind(width=lambda s,w: setattr(s,'text_size',(w,None)))
+        self.add_widget(self.lbl)
+        self.val = Label(text=value_text, font_size=font_sz(14), color=value_color,
+                         halign='right', size_hint_x=0.5,
+                         text_size=(self.width*0.5, None))
+        self.val.bind(width=lambda s,w: setattr(s,'text_size',(w,None)))
         self.add_widget(self.val)
-
-    def set_value(self, text, color=TEXT_DARK):
-        self.val.text = text
-        self.val.color = color
 
 
 # ======================== 主应用 ========================
@@ -154,6 +126,7 @@ class CostApp(App):
 
     def build(self):
         self.icon = ''
+        Window.clearcolor = (0.96, 0.96, 0.97, 1)
         sm = ScreenManager(transition=SlideTransition(duration=0.2))
         sm.add_widget(DashboardScreen(name='dashboard', app=self))
         sm.add_widget(ProductionScreen(name='production', app=self))
@@ -175,31 +148,26 @@ class BaseScreen(Screen):
         self.dm = self.app.dm
 
     def make_back_header(self, title, back_target='dashboard'):
-        """创建顶部导航栏"""
+        """创建顶部导航栏 - 等分三列"""
         header = BoxLayout(orientation='horizontal',
-                           size_hint_y=None, height=dp(50),
-                           padding=[dp(8), 0, dp(8), 0])
+                           size_hint_y=None, height=dp(50))
         with header.canvas.before:
             Color(*PRIMARY)
-            Rectangle(size=header.size, pos=header.pos)
-        header.bind(size=lambda s, v: setattr(
-            list(s.canvas.before.children)[0], 'size', v))
-        header.bind(pos=lambda s, v: setattr(
-            list(s.canvas.before.children)[0], 'pos', v))
+            _br = Rectangle(size=header.size, pos=header.pos)
+        header.bind(size=lambda s, v, r=_br: setattr(r, 'size', v))
+        header.bind(pos=lambda s, v, r=_br: setattr(r, 'pos', v))
 
-        back_btn = Button(text='‹ 返回', size_hint_x=0.2,
-                          font_size=font_sz(15), color=(1, 1, 1, 1),
+        back_btn = Button(text='< 返回', size_hint_x=0.25,
+                          font_size=font_sz(14), color=(1, 1, 1, 1),
                           background_normal='', background_color=(0, 0, 0, 0.1))
         back_btn.bind(on_release=lambda x: setattr(
             self.manager, 'current', back_target))
         header.add_widget(back_btn)
 
-        title_lbl = Label(text=title, font_size=font_sz(18),
-                          color=(1, 1, 1, 1), bold=True)
-        header.add_widget(title_lbl)
-
-        # 占位
-        header.add_widget(Label(size_hint_x=0.2))
+        tl = Label(text=title, font_size=font_sz(17),
+                   color=(1, 1, 1, 1), bold=True, size_hint_x=0.5)
+        header.add_widget(tl)
+        header.add_widget(Label(size_hint_x=0.25))
         return header
 
     def make_scroll_content(self):
@@ -225,19 +193,23 @@ class BaseScreen(Screen):
         return row
 
     def show_popup(self, title, message, btn_text='确定'):
-        """显示提示弹窗"""
-        content = BoxLayout(orientation='vertical', padding=dp(20), spacing=dp(10))
-        content.add_widget(Label(text=message, font_size=font_sz(14),
-                                  color=TEXT_DARK, halign='center',
-                                  text_size=(dp(250), None)))
-        btn = Button(text=btn_text, size_hint_y=None, height=dp(40),
-                     background_normal='', background_color=PRIMARY,
-                     color=(1, 1, 1, 1))
-        popup = Popup(title=title, content=content, size_hint=(0.8, 0.4),
-                      auto_dismiss=False)
-        btn.bind(on_release=popup.dismiss)
-        content.add_widget(btn)
-        popup.open()
+        m = str(message)
+        font_path = 'C:/Windows/Fonts/msyh.ttc'
+        lbl = Label(text=m, font_size=font_sz(14), color=TEXT_DARK,
+                    font_name=font_path,
+                    halign='center', valign='middle',
+                    text_size=(dp(250), None))
+        b = Button(text=btn_text, size_hint_y=None, height=dp(40),
+                   font_name=font_path,
+                   background_normal='', background_color=PRIMARY,
+                   color=(1, 1, 1, 1))
+        c = GridLayout(cols=1, spacing=dp(10), padding=dp(15))
+        c.add_widget(lbl)
+        c.add_widget(b)
+        p = Popup(title=title, content=c, size_hint=(0.7, 0.35),
+                  auto_dismiss=False, title_font=font_path)
+        b.bind(on_release=p.dismiss)
+        p.open()
 
     def confirm_popup(self, title, message, callback):
         """确认弹窗"""
@@ -278,11 +250,9 @@ class DashboardScreen(BaseScreen):
                            height=dp(100), padding=[dp(16), dp(16), dp(16), dp(8)])
         with header.canvas.before:
             Color(*PRIMARY)
-            Rectangle(size=header.size, pos=header.pos)
-        header.bind(size=lambda s, v: setattr(
-            list(s.canvas.before.children)[0], 'size', v))
-        header.bind(pos=lambda s, v: setattr(
-            list(s.canvas.before.children)[0], 'pos', v))
+            _br2 = Rectangle(size=header.size, pos=header.pos)
+        header.bind(size=lambda s, v, r=_br2: setattr(r, 'size', v))
+        header.bind(pos=lambda s, v, r=_br2: setattr(r, 'pos', v))
 
         header.add_widget(Label(text='成本估算软件', font_size=font_sz(22),
                                  color=(1, 1, 1, 1), bold=True,
@@ -295,7 +265,7 @@ class DashboardScreen(BaseScreen):
         content.add_widget(header)
 
         # 快速统计卡片
-        stats = CardBox(size_hint_y=None, height=dp(90))
+        stats = CardBox(fixed_height=dp(90))
         stats_grid = GridLayout(cols=3, spacing=dp(8), size_hint_y=None,
                                  height=dp(70))
         labels = [
@@ -317,14 +287,14 @@ class DashboardScreen(BaseScreen):
 
         # 功能菜单网格
         menu_items = [
-            ('🔧', '生产管理', 'production'),
-            ('💰', '费用管理', 'costs'),
-            ('👷', '工资管理', 'wages'),
-            ('📦', '包装设置', 'packaging'),
-            ('📋', '原材料库', 'materials'),
-            ('📝', '产品配方', 'products'),
-            ('🧮', '最终计算', 'final_calc'),
-            ('📊', '数据分析', 'analysis'),
+            ('生', '生产管理', 'production'),
+            ('费', '费用管理', 'costs'),
+            ('工', '工资管理', 'wages'),
+            ('包', '包装设置', 'packaging'),
+            ('材', '原材料库', 'materials'),
+            ('配', '产品配方', 'products'),
+            ('算', '最终计算', 'final_calc'),
+            ('析', '数据分析', 'analysis'),
         ]
         menu_grid = GridLayout(cols=2, spacing=dp(8), size_hint_y=None,
                                 height=dp(len(menu_items) // 2 * 90 + 90))
@@ -368,7 +338,7 @@ class ProductionScreen(BaseScreen):
         content.add_widget(self.make_back_header('生产管理'))
 
         # ===== 月产能设置 =====
-        card = CardBox(size_hint_y=None, height=dp(100))
+        card = CardBox()
         card.add_widget(SectionTitle(text='月产能设置'))
         cap = self.dm.data['capacity']
         cap_box = BoxLayout(orientation='horizontal', spacing=dp(8),
@@ -398,7 +368,7 @@ class ProductionScreen(BaseScreen):
         content.add_widget(card)
 
         # ===== 基本生产效率 =====
-        card2 = CardBox(size_hint_y=None, height=dp(280))
+        card2 = CardBox()
         card2.add_widget(SectionTitle(text='基本生产效率'))
         pe = self.dm.data['production_efficiency']
 
@@ -426,9 +396,10 @@ class ProductionScreen(BaseScreen):
                              size_hint_y=None, height=dp(36))
         mode_box.add_widget(Label(text='模式:', font_size=font_sz(12),
                                    color=TEXT_DARK, size_hint_x=0.25))
+        mode_text = '手动输入' if pe.get('source', 'manual')=='manual' else '参考项目'
         self.mode_spinner = Spinner(
-            text=pe.get('source', 'manual'),
-            values=['manual', 'reference'],
+            text=mode_text,
+            values=['手动输入', '参考项目'],
             font_size=font_sz(14), size_hint_x=0.7)
         self.mode_spinner.bind(text=self._on_mode_change)
         mode_box.add_widget(self.mode_spinner)
@@ -521,7 +492,7 @@ class ProductionScreen(BaseScreen):
 
     def _on_mode_change(self, spinner, text):
         self._update_mode_visibility()
-        if text == 'reference':
+        if text == '参考项目':
             self.dm.update_pe_source('reference')
             self.dm._update_ref_avg()
             self.dm.save()
@@ -530,7 +501,7 @@ class ProductionScreen(BaseScreen):
         self._refresh_display()
 
     def _update_mode_visibility(self):
-        is_manual = self.mode_spinner.text == 'manual'
+        is_manual = self.mode_spinner.text == '手动输入'
         self.manual_box.opacity = 1 if is_manual else 0.3
         self.manual_box.disabled = not is_manual
         for child in self.ref_list.children:
@@ -580,7 +551,7 @@ class ProductionScreen(BaseScreen):
                                   font_size=font_sz(11), color=TEXT_DARK,
                                   size_hint_x=0.8, halign='left',
                                   text_size=(dp(200), None)))
-            del_btn = Button(text='✕', size_hint_x=0.15,
+            del_btn = Button(text='删', size_hint_x=0.15,
                              background_normal='', background_color=DANGER,
                              color=(1, 1, 1, 1), font_size=font_sz(12))
             del_btn.bind(on_release=lambda x, n=ref['name']: self._delete_ref_project(n))
@@ -609,7 +580,7 @@ class CostsScreen(BaseScreen):
         content.add_widget(self.make_back_header('费用管理'))
 
         # ===== 固定费用 =====
-        card = CardBox(size_hint_y=None, height=dp(200))
+        card = CardBox()
         card.add_widget(SectionTitle(text=f'固定费用 (¥{self.dm.total_fixed_costs():,.0f})'))
         self._build_fixed_list(card)
         add_box = BoxLayout(orientation='horizontal', size_hint_y=None,
@@ -630,7 +601,7 @@ class CostsScreen(BaseScreen):
         content.add_widget(card)
 
         # ===== 管理员费用 =====
-        card2 = CardBox(size_hint_y=None, height=dp(250))
+        card2 = CardBox()
         card2.add_widget(SectionTitle(text=f'管理员费用 (¥{self.dm.total_admin_costs():,.0f})'))
         self._build_admin_list(card2)
         add_box2 = BoxLayout(orientation='horizontal', size_hint_y=None,
@@ -655,7 +626,7 @@ class CostsScreen(BaseScreen):
         content.add_widget(card2)
 
         # ===== 电费 =====
-        card3 = CardBox(size_hint_y=None, height=dp(80))
+        card3 = CardBox()
         card3.add_widget(SectionTitle(text='电费设置'))
         elec_row = BoxLayout(orientation='horizontal', size_hint_y=None,
                              height=dp(36), spacing=dp(4))
@@ -678,7 +649,7 @@ class CostsScreen(BaseScreen):
 
         # 总费用汇总
         total = self.dm.total_fixed_costs() + self.dm.total_admin_costs() + self.dm.calc_electricity()
-        card4 = CardBox(size_hint_y=None, height=dp(40))
+        card4 = CardBox()
         card4.add_widget(InfoRow('费用总计:', f'¥{total:,.2f}', value_color=PRIMARY))
         content.add_widget(card4)
 
@@ -695,7 +666,7 @@ class CostsScreen(BaseScreen):
                                   font_size=font_sz(12), color=TEXT_DARK,
                                   size_hint_x=0.8, halign='left',
                                   text_size=(dp(200), None)))
-            del_btn = Button(text='✕', size_hint_x=0.15,
+            del_btn = Button(text='删', size_hint_x=0.15,
                              background_normal='', background_color=DANGER,
                              color=(1, 1, 1, 1), font_size=font_sz(12))
             del_btn.bind(on_release=lambda x, idx=i: (
@@ -716,7 +687,7 @@ class CostsScreen(BaseScreen):
                 text=f"{ac['name']}: ¥{ac['price']:.0f}×{ac['qty']}=¥{ac['total']:.0f}",
                 font_size=font_sz(11), color=TEXT_DARK, size_hint_x=0.8,
                 halign='left', text_size=(dp(200), None)))
-            del_btn = Button(text='✕', size_hint_x=0.15,
+            del_btn = Button(text='删', size_hint_x=0.15,
                              background_normal='', background_color=DANGER,
                              color=(1, 1, 1, 1), font_size=font_sz(12))
             del_btn.bind(on_release=lambda x, idx=i: (
@@ -802,7 +773,7 @@ class WagesScreen(BaseScreen):
 
     def _build_porter(self, content):
         cap_kg = self.dm.data['capacity']['月产能_kg']
-        content.add_widget(CardBox(size_hint_y=None, height=dp(40)))
+        content.add_widget(CardBox())
         content.children[0].add_widget(
             InfoRow(f'搬运工工资 (产能{cap_kg:,.0f}kg)',
                     f'¥{self.dm.total_porter_wages():,.0f}',
@@ -833,7 +804,7 @@ class WagesScreen(BaseScreen):
                 text=f"{p['name']}: ¥{p['base_wage']:.0f} + {p['correction']:.2f} = ¥{p['actual']:.2f}",
                 font_size=font_sz(11), color=TEXT_DARK, halign='left',
                 text_size=(dp(220), None)))
-            del_btn = Button(text='✕', size_hint_x=0.12,
+            del_btn = Button(text='删', size_hint_x=0.12,
                              background_normal='', background_color=DANGER,
                              color=(1, 1, 1, 1), font_size=font_sz(12))
             del_btn.bind(on_release=lambda x, idx=i: (
@@ -857,7 +828,7 @@ class WagesScreen(BaseScreen):
         self.on_enter()
 
     def _build_production(self, content):
-        content.add_widget(CardBox(size_hint_y=None, height=dp(40)))
+        content.add_widget(CardBox())
         total = self.dm.total_production_wages()
         content.children[0].add_widget(
             InfoRow('生产线工资总计:', f'¥{total:,.0f}', value_color=PRIMARY))
@@ -895,7 +866,7 @@ class WagesScreen(BaseScreen):
                 text=f"{w['name']}: {w['actual_hours']:.1f}h × ¥{w['extra_rate']:.0f} + ¥{w['bonus']:.0f} = ¥{w['total']:.0f}",
                 font_size=font_sz(10), color=TEXT_DARK, halign='left',
                 text_size=(dp(220), None)))
-            del_btn = Button(text='✕', size_hint_x=0.1,
+            del_btn = Button(text='删', size_hint_x=0.1,
                              background_normal='', background_color=DANGER,
                              color=(1, 1, 1, 1), font_size=font_sz(12))
             del_btn.bind(on_release=lambda x, idx=i: (
@@ -921,7 +892,7 @@ class WagesScreen(BaseScreen):
         self.on_enter()
 
     def _build_packaging(self, content):
-        content.add_widget(CardBox(size_hint_y=None, height=dp(40)))
+        content.add_widget(CardBox())
         total = self.dm.total_packaging_wages()
         content.children[0].add_widget(
             InfoRow('包装工资总计:', f'¥{total:,.0f}', value_color=PRIMARY))
@@ -957,7 +928,7 @@ class WagesScreen(BaseScreen):
                 text=f"{w['name']}: ¥{w['base_wage']:.0f}+¥{w['subsidy']:.0f}=¥{w['final']:.0f}",
                 font_size=font_sz(10), color=TEXT_DARK, halign='left',
                 text_size=(dp(220), None)))
-            del_btn = Button(text='✕', size_hint_x=0.1,
+            del_btn = Button(text='删', size_hint_x=0.1,
                              background_normal='', background_color=DANGER,
                              color=(1, 1, 1, 1), font_size=font_sz(12))
             del_btn.bind(on_release=lambda x, idx=i: (
@@ -997,7 +968,7 @@ class PackagingScreen(BaseScreen):
         content.add_widget(self.make_back_header('包装设置'))
 
         # 包装系数
-        card = CardBox(size_hint_y=None, height=dp(140))
+        card = CardBox()
         card.add_widget(SectionTitle(text='包装系数'))
         pc = self.dm.data['packaging_coefficient']
         values = list(pc.values()) if isinstance(pc, dict) else [0, 0, 0]
@@ -1017,7 +988,7 @@ class PackagingScreen(BaseScreen):
         content.add_widget(card)
 
         # 包装费用
-        card2 = CardBox(size_hint_y=None, height=dp(120))
+        card2 = CardBox()
         card2.add_widget(SectionTitle(text='包装费用'))
         pc_data = self.dm.data['product_costs']
         film_input = TextInput(text=f"{pc_data.get('包装膜费用', 0):.2f}",
@@ -1039,7 +1010,7 @@ class PackagingScreen(BaseScreen):
         content.add_widget(card2)
 
         # 包装人员汇总
-        card3 = CardBox(size_hint_y=None, height=dp(40))
+        card3 = CardBox()
         total_pkg = self.dm.total_packaging_wages()
         card3.add_widget(InfoRow('包装人员工资总计:', f'¥{total_pkg:,.0f}',
                                   value_color=PRIMARY))
@@ -1080,7 +1051,7 @@ class MaterialsScreen(BaseScreen):
 
         # 原材料列表
         for i, mat in enumerate(self.dm.data['raw_materials']):
-            card = CardBox(size_hint_y=None, height=dp(50))
+            card = CardBox()
             row = BoxLayout(orientation='horizontal', spacing=dp(4),
                             size_hint_y=None, height=dp(30))
             row.add_widget(Label(text=mat['name'], font_size=font_sz(14),
@@ -1090,7 +1061,7 @@ class MaterialsScreen(BaseScreen):
             row.add_widget(Label(text=f"¥{mat['price_kg']:.4f}/kg",
                                   font_size=font_sz(13), color=PRIMARY,
                                   size_hint_x=0.35))
-            del_btn = Button(text='✕', size_hint_x=0.2,
+            del_btn = Button(text='删', size_hint_x=0.2,
                              background_normal='', background_color=DANGER,
                              color=(1, 1, 1, 1), font_size=font_sz(14))
             del_btn.bind(on_release=lambda x, idx=i: (
@@ -1166,7 +1137,7 @@ class ProductsScreen(BaseScreen):
         # 选中产品的配方详情
         if self.selected_product is not None and self.selected_product < len(self.dm.data['products']):
             prod = self.dm.data['products'][self.selected_product]
-            card = CardBox(size_hint_y=None, height=dp(300))
+            card = CardBox()
             card.add_widget(SectionTitle(text=f"配方: {prod['name']}"))
 
             # 投料产出比
@@ -1186,7 +1157,7 @@ class ProductsScreen(BaseScreen):
                                       input_filter='float', multiline=False,
                                       size_hint_x=0.3)
             ratio_box.add_widget(output_input)
-            ratio_save = Button(text='✓', size_hint_x=0.1,
+            ratio_save = Button(text='存', size_hint_x=0.1,
                                 background_normal='', background_color=SECONDARY,
                                 color=(1, 1, 1, 1), font_size=font_sz(16))
             ratio_save.bind(on_release=lambda x: (
@@ -1208,7 +1179,7 @@ class ProductsScreen(BaseScreen):
                     text=f"{ing['material_name']}: {ing['usage_kg']:.2f}kg",
                     font_size=font_sz(11), color=TEXT_DARK,
                     halign='left', text_size=(dp(180), None)))
-                del_btn = Button(text='✕', size_hint_x=0.15,
+                del_btn = Button(text='删', size_hint_x=0.15,
                                  background_normal='', background_color=DANGER,
                                  color=(1, 1, 1, 1), font_size=font_sz(12))
                 del_btn.bind(on_release=lambda x, idx=j: (
@@ -1292,7 +1263,7 @@ class FinalCalcScreen(BaseScreen):
         costs_per_kg = total_cost / cap_kg
 
         # 成本汇总
-        card = CardBox(size_hint_y=None, height=dp(220))
+        card = CardBox()
         card.add_widget(SectionTitle(text=f'成本汇总 (产能: {cap_kg:,.0f} kg)'))
 
         items = [
@@ -1317,11 +1288,12 @@ class FinalCalcScreen(BaseScreen):
         film = pc_data.get('包装膜费用', 0)
         carton = pc_data.get('纸箱费用', 0)
 
+        piece_weight = 4.75  # 每件公斤数
         for i, prod in enumerate(self.dm.data.get('products', [])):
             raw_cost = self.dm.calc_product_raw_cost(i)
-            final = self.dm.calc_final_cost(raw_cost)
-            ratio = prod.get('output_kg', 0) / prod.get('input_kg', 0) if prod.get('input_kg', 0) > 0 else 1
-            final_adj = final / ratio if ratio > 0 else final
+            # 成品成本(件) = (原材料成本元/kg + 总费用/产能) x 4.75 + 包装材料费 + 纸箱费用
+            subtotal = (raw_cost + costs_per_kg) * piece_weight
+            final = subtotal + film + carton
 
             detail = BoxLayout(orientation='vertical', size_hint_y=None)
             detail.bind(minimum_height=detail.setter('height'))
@@ -1332,15 +1304,14 @@ class FinalCalcScreen(BaseScreen):
                 text_size=(dp(260), None)))
             detail.add_widget(InfoRow('  原材料成本:', f'¥{raw_cost:.4f}/kg'))
             detail.add_widget(InfoRow('  均摊费用:', f'¥{costs_per_kg:.4f}/kg'))
-            detail.add_widget(InfoRow('  包装膜:', f'¥{film:.2f}/kg'))
-            detail.add_widget(InfoRow('  纸箱:', f'¥{carton:.2f}/kg'))
-            detail.add_widget(InfoRow(f'  成品成本:', f'¥{final_adj:.4f}/件',
+            detail.add_widget(InfoRow('  (原料+费用)x4.75:', f'¥{subtotal:.4f}/件'))
+            detail.add_widget(InfoRow('  包装膜:', f'¥{film:.2f}/件'))
+            detail.add_widget(InfoRow('  纸箱:', f'¥{carton:.2f}/件'))
+            detail.add_widget(InfoRow(f'  成品成本:', f'¥{final:.4f}/件',
                                       value_color=SECONDARY))
             card2.add_widget(detail)
-            card2.height = dp(50 + (len(prod.get('ingredients', [])) * 28) + 120)
 
         content.add_widget(card2)
-
         self.add_widget(scroll)
 
 
@@ -1367,7 +1338,7 @@ class AnalysisScreen(BaseScreen):
             return
 
         # 产能-成本分析
-        card = CardBox(size_hint_y=None, height=dp(300))
+        card = CardBox()
         card.add_widget(SectionTitle(text='产能-成本分析'))
 
         cap_range = [cap_kg * 0.5, cap_kg * 0.75, cap_kg, cap_kg * 1.25, cap_kg * 1.5]
@@ -1378,7 +1349,7 @@ class AnalysisScreen(BaseScreen):
         content.add_widget(card)
 
         # 成本占比
-        card2 = CardBox(size_hint_y=None, height=dp(220))
+        card2 = CardBox()
         card2.add_widget(SectionTitle(text='成本占比分析'))
         items = [
             ('固定费用', self.dm.total_fixed_costs()),
@@ -1397,7 +1368,7 @@ class AnalysisScreen(BaseScreen):
 
         # 敏感性分析
         if self.dm.get_material_names():
-            card3 = CardBox(size_hint_y=None, height=dp(180))
+            card3 = CardBox()
             card3.add_widget(SectionTitle(text='原材料敏感性分析'))
             mat_spinner = Spinner(text=self.dm.get_material_names()[0],
                                    values=self.dm.get_material_names(),

@@ -145,13 +145,15 @@ class DataManager:
                 self.save()
 
     def calc_product_raw_cost(self, product_idx):
-        """计算产品的原材料总成本"""
+        """计算产品的原材料成本 — 返回每公斤成品成本"""
         if 0 <= product_idx < len(self.data["products"]):
             product = self.data["products"][product_idx]
             total = 0
             for ing in product["ingredients"]:
                 total += ing["usage_kg"] * self.get_material_price(ing["material_name"])
-            return total
+            # 除以产出kg，得到每公斤成品成本
+            output = product.get("output_kg", 0)
+            return total / output if output > 0 else total
         return 0
 
     # ==================== 固定费用 ====================
