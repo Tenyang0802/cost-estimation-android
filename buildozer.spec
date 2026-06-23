@@ -38,7 +38,7 @@ version = 1.0
 main.py = main.py
 
 # (list) List of requirements to install
-requirements = python3,kivy,android
+requirements = python3,kivy
 
 # (str) Presplash of the application
 # presplash.filename = %(source.dir)s/data/presplash.png
@@ -53,13 +53,13 @@ orientation = portrait
 android.permissions = INTERNET, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
 
 # (int) Target Android API, should be as high as possible
-android.api = 33
+android.api = 34
 
 # (int) Minimum API required
 android.minapi = 21
 
 # (int) Android SDK version to use
-android.sdk = 33
+android.sdk = 34
 
 # (str) Android NDK version to use
 android.ndk = 25b
