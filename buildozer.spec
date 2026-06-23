@@ -134,6 +134,7 @@ android.archs = arm64-v8a
 android.gradle = True
 
 # (str) One of p4a (python-for-android) or we (wheels-engine) to use
+p4a.bootstrap = sdl2
 android.bootstrap = sdl2
 
 # (str) The branch of python-for-android to use
