@@ -25,10 +25,15 @@ jobs:
             libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
           pip install --quiet buildozer cython 2>&1 | tail -10
 
+      - name: Accept Android SDK license
+        run: |
+          mkdir -p ~/.android
+          touch ~/.android/repositories.cfg
+
       - name: Build APK with Buildozer
         run: |
           cd ${{ github.workspace }}
-          buildozer android debug
+          yes | buildozer android debug 2>&1
         env:
           BUILD_REQUIREMENTS: python3,kivy
 
