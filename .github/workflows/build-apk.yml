@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -15,24 +15,24 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.10'
 
-      - name: Build APK with Buildozer (Docker)
+      - name: Install Buildozer deps
         run: |
-          cd ${{ github.workspace }}
-          # 创建打包脚本，内置 root 跳过
-          cat > build_apk.sh << 'EOSCRIPT'
-          #!/bin/bash
-          export BUILDOZER_AS_ROOT=1
-          yes 2>/dev/null | buildozer android debug
-          EOSCRIPT
-          chmod +x build_apk.sh
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq git zip unzip openjdk-17-jdk python3-pip \
+            autoconf libtool pkg-config zlib1g-dev \
+            libncurses5-dev libncursesw5-dev cmake libffi-dev libssl-dev
+          pip install --quiet buildozer cython
+
+      - name: Patch Buildozer + Build APK
+        run: |
+          # 打补丁：让 check_root 直接返回，跳过交互式确认
+          P=$(python3 -c "import buildozer; import os; print(os.path.dirname(buildozer.__file__))")/__init__.py
+          sed -i 's/def check_root(self):/def check_root(self):\n        return/' "$P"
           
-          docker run --rm -i \
-            -v ${{ github.workspace }}:/app \
-            -w /app \
-            kivy/buildozer:latest \
-            bash build_apk.sh 2>&1
+          cd ${{ github.workspace }}
+          yes | buildozer android debug 2>&1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4

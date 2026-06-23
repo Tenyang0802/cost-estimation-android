@@ -53,16 +53,16 @@ orientation = portrait
 android.permissions = INTERNET, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
 
 # (int) Target Android API, should be as high as possible
-android.api = 34
+android.api = 33
 
 # (int) Minimum API required
 android.minapi = 21
 
 # (int) Android SDK version to use
-android.sdk = 34
+android.sdk = 33
 
 # (str) Android NDK version to use
-android.ndk = 25b
+android.ndk = 23b
 
 # (bool) Use Android's private storage (recommended for new apps)
 android.private_storage = True
@@ -134,7 +134,6 @@ android.archs = arm64-v8a
 android.gradle = True
 
 # (str) One of p4a (python-for-android) or we (wheels-engine) to use
-p4a.bootstrap = sdl2
 android.bootstrap = sdl2
 
 # (str) The branch of python-for-android to use
