@@ -62,7 +62,7 @@ android.minapi = 21
 android.sdk = 33
 
 # (str) Android NDK version to use
-android.ndk = 23b
+android.ndk = 25c
 
 # (bool) Use Android's private storage (recommended for new apps)
 android.private_storage = True
