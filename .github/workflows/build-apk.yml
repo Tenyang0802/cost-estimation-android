@@ -32,7 +32,7 @@ jobs:
           P=$(python3 -c "import buildozer; import os; print(os.path.dirname(buildozer.__file__))")/__init__.py
           sed -i 's/def check_root(self):/def check_root(self):\n        return/' "$P"
 
-          # 系统预装 SDK/NDK，无需 Buildozer 下载
+          # 系统预装 SDK/NDK
           export ANDROID_HOME=/usr/local/lib/android/sdk
           export ANDROID_SDK_ROOT=/usr/local/lib/android/sdk
           export ANDROID_NDK_HOME=/usr/local/lib/android/sdk/ndk/27.3.13750724
@@ -48,8 +48,22 @@ jobs:
             }
           ' 2>&1
 
+      - name: Find & Upload APK
+        run: |
+          echo "=== 查找所有 APK/AAB ==="
+          find . -name "*.apk" -o -name "*.aab" 2>/dev/null
+          echo ""
+          echo "=== bin/ 目录 ==="
+          ls -la bin/ 2>/dev/null || echo "(没有 bin/ 目录)"
+          echo ""
+          echo "=== .buildozer 输出目录 ==="
+          ls -la .buildozer/android/platform/build-arm64-v8a/dists/ 2>/dev/null || echo "(无 dists)"
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: cost-estimation-apk
-          path: ${{ github.workspace }}/bin/*.apk
+          path: |
+            **/*.apk
+            **/*.aab
+          if-no-files-found: warn
